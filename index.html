@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#1f2933">
+<title>Where to today?</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<style>
+  :root {
+    --bg: #f4f5f7;
+    --card: #ffffff;
+    --text: #1f2933;
+    --muted: #616e7c;
+    --mum: #e8590c;
+    --dad: #1971c2;
+    --other: #7048e8;
+    --none: #868e96;
+    --warn-bg: #fff3bf;
+    --warn-text: #5c4400;
+    --err-bg: #ffe3e3;
+    --err-text: #7a1010;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #12161b;
+      --card: #1e242c;
+      --text: #e9ecef;
+      --muted: #9aa5b1;
+      --warn-bg: #4a3b00;
+      --warn-text: #ffe8a3;
+      --err-bg: #4d1414;
+      --err-text: #ffd0d0;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    font-size: 18px;
+    line-height: 1.4;
+  }
+  main { max-width: 520px; margin: 0 auto; padding: 16px; }
+  .banner { border-radius: 12px; padding: 12px 14px; margin-bottom: 12px; font-weight: 600; }
+  .banner.warn { background: var(--warn-bg); color: var(--warn-text); }
+  .banner.err { background: var(--err-bg); color: var(--err-text); }
+  .today-date { font-size: 22px; font-weight: 600; margin: 4px 0 12px; }
+  .today {
+    border-radius: 20px;
+    padding: 24px 20px;
+    color: #fff;
+    text-align: center;
+    background: var(--none);
+  }
+  .today .who { font-size: 56px; font-weight: 800; line-height: 1.1; letter-spacing: 0.02em; }
+  .today .sentence { font-size: 22px; font-weight: 600; margin-top: 10px; }
+  .today .detail { font-size: 17px; margin-top: 6px; opacity: 0.9; }
+  .mum { background: var(--mum); }
+  .dad { background: var(--dad); }
+  .other { background: var(--other); }
+  .none { background: var(--none); }
+  h2 { font-size: 18px; color: var(--muted); margin: 24px 0 8px; font-weight: 600; }
+  ul { list-style: none; margin: 0; padding: 0; background: var(--card); border-radius: 16px; overflow: hidden; }
+  li { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 14px; }
+  li + li { border-top: 1px solid rgba(127, 127, 127, 0.18); }
+  .day { font-weight: 600; }
+  .chips { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
+  .chip { color: #fff; border-radius: 999px; padding: 3px 12px; font-weight: 700; font-size: 16px; }
+  .arrow { color: var(--muted); font-weight: 700; }
+  footer { color: var(--muted); font-size: 15px; margin: 20px 0 8px; text-align: center; }
+  button {
+    font: inherit; font-size: 16px; margin-top: 10px; padding: 10px 18px;
+    border-radius: 999px; border: 1px solid var(--muted); background: transparent; color: var(--text);
+  }
+</style>
+</head>
+<body>
+<main>
+  <div id="banners"></div>
+  <div class="today-date" id="today-date"></div>
+  <section class="today none" id="today">
+    <div class="who">…</div>
+  </section>
+  <h2>Next days</h2>
+  <ul id="upcoming"></ul>
+  <footer>
+    <div id="status"></div>
+    <button id="refresh" type="button">Refresh</button>
+  </footer>
+</main>
+<script src="app.js"></script>
+</body>
+</html>
