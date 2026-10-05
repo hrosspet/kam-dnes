@@ -226,33 +226,50 @@ function render(stored, fetchError) {
 
 // ---------- update loop ----------
 
+const REFRESH_MINUTES = 15;  // background re-download while the app stays open
+
+const button = document.getElementById('refresh');
 let busy = false;
+let lastError = null;
+let buttonTimer = null;
+
+function setButton(text, disabled) {
+  button.textContent = text;
+  button.disabled = disabled;
+}
 
 async function refresh() {
   if (busy) return;
   busy = true;
-  let error = null;
+  clearTimeout(buttonTimer);
+  setButton('Refreshing…', true);
+  lastError = null;
   try {
     const res = await fetch(CSV_URL, { cache: 'no-store' });
     if (!res.ok) throw new Error('HTTP ' + res.status);
     const days = extractSchedule(await res.text());
     saveStored({ fetchedAt: Date.now(), days });
   } catch (e) {
-    error = e.message || String(e);
+    lastError = e.message || String(e);
   }
   busy = false;
-  render(loadStored(), error);
+  render(loadStored(), lastError);
+  setButton(lastError ? 'Offline, try again later' : 'Updated ✓', false);
+  buttonTimer = setTimeout(() => setButton('Refresh', false), 3000);
 }
 
 render(loadStored(), null);
 refresh();
 
-document.getElementById('refresh').addEventListener('click', refresh);
+button.addEventListener('click', refresh);
 document.addEventListener('visibilitychange', () => {
   if (document.visibilityState === 'visible') refresh();
 });
+setInterval(() => {
+  if (document.visibilityState === 'visible') refresh();
+}, REFRESH_MINUTES * 60000);
 // Keep the displayed day correct if the app stays open past midnight.
-setInterval(() => render(loadStored(), null), 60000);
+setInterval(() => render(loadStored(), lastError), 60000);
 
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('sw.js');

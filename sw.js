@@ -1,7 +1,7 @@
 'use strict';
 
 // Caches the app itself so it opens offline. The schedule data is stored by app.js in localStorage.
-const CACHE = 'kam-dnes-v1';
+const CACHE = 'kam-dnes-v2';
 const SHELL = ['./', 'index.html', 'app.js', 'manifest.webmanifest', 'icon-192.png', 'icon-512.png'];
 
 self.addEventListener('install', event => {
