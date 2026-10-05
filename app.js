@@ -14,7 +14,7 @@ const STORE_KEY = 'schedule-v1';
 // Values of the Konsenzus column → how to display them.
 const PEOPLE = {
   'Pája': { name: 'Helios', place: "Helios's", cls: 'mum' },
-  'Dan':  { name: 'Mia', place: "Mia's", cls: 'dad' },
+  'Dan':  { name: 'Mia & Yori', place: "Mia & Yori's", cls: 'dad' },
 };
 
 // ---------- dates ----------
@@ -127,7 +127,7 @@ function renderToday(date, entry) {
     box.className = 'today none';
     add('who', '?');
     add('sentence', "I don't have a plan for today.");
-    add('detail', 'Ask Helios or Mia.');
+    add('detail', 'Ask Helios or Mia & Yori.');
     return;
   }
 
@@ -150,12 +150,12 @@ function renderToday(date, entry) {
     box.className = 'today other';
     add('who', dec.text === 'Special' ? 'Special day' : dec.text);
     add('sentence', entry.p);
-    add('detail', 'Ask Helios or Mia where to go.');
+    add('detail', 'Ask Helios or Mia & Yori where to go.');
   } else {
     box.className = 'today none';
     add('who', '?');
     add('sentence', 'Not decided yet.');
-    add('detail', 'Ask Helios or Mia.');
+    add('detail', 'Ask Helios or Mia & Yori.');
   }
 }
 
@@ -174,15 +174,15 @@ function renderUpcoming(today, days) {
     const chips = el('span', 'chips');
     const dec = parseDecision(entry ? entry.k : '');
     if (!entry) {
-      chips.appendChild(el('span', 'chip none', 'no data · ask Helios or Mia'));
+      chips.appendChild(el('span', 'chip none', 'no data · ask Helios or Mia & Yori'));
     } else if (dec.kind === 'stay') {
       chips.appendChild(chip(dec.to));
     } else if (dec.kind === 'switch') {
       chips.append(chip(dec.from), el('span', 'arrow', '→'), chip(dec.to));
     } else if (dec.kind === 'other') {
-      chips.appendChild(el('span', 'chip other', (entry.p || dec.text) + ' · ask Helios or Mia'));
+      chips.appendChild(el('span', 'chip other', (entry.p || dec.text) + ' · ask Helios or Mia & Yori'));
     } else {
-      chips.appendChild(el('span', 'chip none', 'ask Helios or Mia'));
+      chips.appendChild(el('span', 'chip none', 'ask Helios or Mia & Yori'));
     }
     li.appendChild(chips);
     list.appendChild(li);
@@ -213,7 +213,7 @@ function render(stored, fetchError) {
   const ageDays = (now - stored.fetchedAt) / 86400000;
   if (!todayEntry) {
     banners.appendChild(el('div', 'banner err',
-      "The plan is out of date and has nothing for today. Connect to the internet, or ask Helios or Mia."));
+      "The plan is out of date and has nothing for today. Connect to the internet, or ask Helios or Mia & Yori."));
   } else if (ageDays > STALE_DAYS) {
     banners.appendChild(el('div', 'banner warn',
       'The plan is ' + Math.floor(ageDays) + ' days old and may have changed. Open the app again when you are online.'));
